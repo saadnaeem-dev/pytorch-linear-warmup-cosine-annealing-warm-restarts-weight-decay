@@ -18,8 +18,15 @@ pip install 'git+https://github.com/saadnaeem-dev/pytorch-linear-warmup-cosine-a
 ## Example
 ```
 >> from linear_warmup_cosine_annealing_warm_restarts_weight_decay import ChainedScheduler
-
+>>> import torch
+>>> import torch.optim as optim
+>>> from torchvision.models import AlexNet
+>>> from torch.optim import lr_scheduler
+>>> import matplotlib.pyplot as plt
+>>> import matplotlib
+>>> optimizer = optim.SGD(model.parameters(), lr=0.1, momentum=0.9, weight_decay=1e-1)
 >>> model = AlexNet(num_classes=2)
+
 >>> optimizer = optim.SGD(model.parameters(), lr=0.1, momentum=0.9, weight_decay=1e-1)
 >>> scheduler = ChainedScheduler(
 >>>                 optimizer,
@@ -30,9 +37,34 @@ pip install 'git+https://github.com/saadnaeem-dev/pytorch-linear-warmup-cosine-a
 >>>                 max_lr = 1.0,
 >>>                 warmup_steps= 5 ,
 >>>             )
+
+>>> scheduler = ChainedScheduler(
+>>>                 optimizer,
+>>>                 T_0 = 20,
+>>>                 T_mul = 1,
+>>>                 eta_min = 0.0,
+>>>                 gamma = 0.9,
+>>>                 max_lr = 1.0,
+>>>                 warmup_steps= 5 ,
+>>>             )
+
+
+>>> fig = matplotlib.pyplot.gcf()
+>>> matplotlib.rcParams['figure.figsize'] = [18.5, 10]
+>>> x = list(range(100))
+>>> y = []
+
 >>> for epoch in range(100):
 >>>     optimizer.step()
 >>>     scheduler.step()
+>>>     y.append(scheduler.get_lr()[0])
+
+>>> fig, axes = plt.subplots(1, 1)
+>>> xticks = range(min(x), max(x) + 1)
+>>> axes.set_xticks(xticks)
+>>> plt.plot(xticks, y)
+>>> plt.grid()
+>>> plt.show()
 ```
 - above snippet produces : 
 ![exampleUsingAllOptions](./plots/InitialWarmup_with_CosineAnealingWithWarmRestarts_and_WeightDecay.png "exampleUsingAllOptions")
