@@ -2,8 +2,7 @@
 
 ## Installation
 ```bash
-pip install 'git+https://github.com/saadnaeem-dev/
-pytorch-linear-warmup-cosine-anealing-warm-restarts-weight-decay'
+pip install 'git+https://github.com/saadnaeem-dev/pytorch-linear-warmup-cosine-annealing-warm-restarts-weight-decay'
 ```
 
 ## Args
